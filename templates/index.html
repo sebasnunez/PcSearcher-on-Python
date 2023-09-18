@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{url_for('static', filename = 'styles/app.css')}}">
+    <title>Buscador de Equipos 3000</title>
+</head>
+<body onload="buscarIp()">
+    <div class="allContent">
+        <div class="info">
+            <h2>IP</h2>
+            
+            <div class = "columnasi">
+                {% for x in list%}
+                <div class="tabla" style="text-align: justify;">{{x}}</div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="container">
+            <h1>Buscador de Equipos</h1>
+            <div class="recorredor">
+                <form action="/" method="post">
+                    <label for="ip">Ingrese fragmento de ip a recorrer</label>
+                    <input type="text" name="ip"><br/>
+                    <input name = "recorrer" type="submit" value="Recorrer" />
+                </form>
+            </div>
+            <div class = "buscador">
+                <form class = "buscador" action="/" method="post">
+                    <label for="ipB">Buscar nombres de ip recorridas</label>
+                    <input type="hidden" id="ipB" name="ipB" value="" />
+                    <input name = "nombres" type="submit" value="Buscar" />
+                </form>
+                <script>
+                    function buscarIp(){
+                        document.getElementById("ipB").value = document.getElementById("des").value
+                    }
+                </script>
+            </div>
+            <div class="footer">
+                <form action="/" method="post">
+                    <select onclick="buscarIp()" name="des" id="des">
+                        {% for x in opcion%}
+                        <option value={{x}}>{{x}}</option>
+                        {% endfor %}
+                    </select>
+                    <input name="historicoRecorrido" type="submit" value="Ver recorrido">
+                </form>
+            </div>
+            <div>
+                <form class="evidenS" action="/" method="post">
+                    <label for="evidencia">Ingrese la ip que desea sacar la evidencia</label>
+                    <input type="text" name="evidencia"><br/>
+                    <div>
+                        <select name="TiEq" id="TiEq">
+                            <option value="escritorio">Escritorio</option>
+                            <option value="portatil">portatil</option>
+                        </select>
+                        <input name = "botonEvidencia" type="submit" value="Generar" />
+                    </div>
+                </form>
+                {% if ip%}
+                <input type="hidden" id="ip" value={{ip}}>
+                <script>
+                    ip = document.getElementById("ip").value
+                    console.log(ip)
+                    alert("El equipo "+ip+" no se encuentra en la red")
+                </script>
+                {% endif %}
+            </div>
+        </div>
+        <div class="info">
+            <h2>HOSTNAME</h2>
+            <div class = "columnasd">
+                {% for x in names%}
+                <div class="tabla" style="text-align: justify;">{{x}}</div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</body>
+</html>
