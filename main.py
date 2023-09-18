@@ -94,7 +94,8 @@ def listar():
   dir = os.listdir("./historico/ips")
   listaD = []
   for x in dir:
-    listaD.append(str(x)[:-4])
+    if str(x)!=".gitignore":
+      listaD.append(str(x)[:-4])
   return listaD
 
 if __name__ == "__main__":
