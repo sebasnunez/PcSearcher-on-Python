@@ -57,7 +57,7 @@ input{
     align-items: center;
     justify-items: center;
     grid-template-columns: 100%;
-    grid-row-gap: 2px ;
+    grid-row-gap: 8px ;
 }
 .buscador form{
     border-top: 5px solid gray;
@@ -122,4 +122,17 @@ input{
     height: auto;
     display: grid;
     grid-template-rows: auto;
+}
+.buscarEqui{
+    border-top: 5px solid gray;
+    display: grid;
+    grid-template-rows: auto;
+    justify-items: center;
+}
+.convertir{
+    border-top: 5px solid gray;
+    display: grid;
+    grid-template-rows: auto;
+    justify-items: center;
+    grid-gap: 5px;
 }

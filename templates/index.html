@@ -35,6 +35,7 @@
                 <script>
                     function buscarIp(){
                         document.getElementById("ipB").value = document.getElementById("des").value
+                        document.getElementById("archivo").value = document.getElementById("des").value
                     }
                 </script>
             </div>
@@ -55,17 +56,53 @@
                     <div>
                         <select name="TiEq" id="TiEq">
                             <option value="escritorio">Escritorio</option>
-                            <option value="portatil">portatil</option>
+                            <option value="portatil">Portatil</option>
                         </select>
                         <input name = "botonEvidencia" type="submit" value="Generar" />
                     </div>
                 </form>
                 {% if ip%}
-                <input type="hidden" id="ip" value={{ip}}>
+                <input type="hidden" id="ip" value="{{ip}}">
                 <script>
                     ip = document.getElementById("ip").value
-                    console.log(ip)
                     alert("El equipo "+ip+" no se encuentra en la red")
+                </script>
+                {% endif %}
+            </div>
+            <div>
+                <form class="buscarEqui" action="/" method="post">
+                    <label for="nombreEqui">Ingrese equipo a buscar</label>
+                    <input type="text" name="nombreEqui"><br/>
+                    <input name = "botonEqui" type="submit" value="Buscar" />
+                </form>
+                {% if nameEqui%}
+                <input type="hidden" id="nameEqui" value="{{nameEqui}}" >
+                <script>
+                    nameEqui = document.getElementById("nameEqui").value
+                    alert(nameEqui)
+                </script>
+                {% endif %}
+            </div>
+            <div>
+                <form class="convertir" class="Convert" action="/" method="post">
+                    <label for="archivo">Exportar a CSV</label>
+                    <input type="hidden" name="archivo" id="archivo" value="">
+                    <input name = "botonCon" type="submit" value="Convertir" />
+                </form>
+                {% if archivo and contenido%}
+                <input type="hidden" id="archi" value="{{archivo}}" >
+                <input type="hidden" id="contenido" value="{{contenido}}" >
+                <script>
+                    archi = document.getElementById("archi").value
+                    contenido = document.getElementById("contenido").value
+                    nombre = archi+".csv"
+                    const a = document.createElement("a");
+                    const archivo = new Blob([contenido], { type: 'text/plain' });
+                    const url = URL.createObjectURL(archivo);
+                    a.href = url;
+                    a.download = nombre;
+                    a.click();
+                    URL.revokeObjectURL(url);
                 </script>
                 {% endif %}
             </div>

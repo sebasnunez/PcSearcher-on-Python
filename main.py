@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 import os
+import wget
 app = Flask(__name__)
 
 import subprocess
@@ -81,10 +82,38 @@ def recorrerIp():
             return render_template('index.html', opcion = listaD)
           else:
             listaD = listar()
-            return render_template('index.html', opcion = listaD, ip = str(ip))
+            return render_template('index.html', opcion = listaD)
         else:
-          listaD = listar()
-          return render_template('index.html', opcion = listaD)
+          if request.method=="POST" and 'botonEqui' in request.form:
+            nombreEqui = request.form.get("nombreEqui")
+            res = subprocess.Popen('cd ./historico/hostnames/ && find "'+str(nombreEqui)+'" ./*.txt', shell=True,stdout=subprocess.PIPE)
+            out = res.stdout.read()
+            if 'n1' in str(out):
+              nombre="1"+str(out).split('n1')[1]
+              n = 1
+              while True:
+                if nombre[n]=="\\":
+                  break
+                n+=1
+              nombre=nombre[:n]
+            else:
+              nombre = 'El equipo no se encuentra en ninguna consulta'
+            listaD = listar()
+            return render_template('index.html', opcion = listaD, nameEqui = nombre)
+          else:
+            if request.method=="POST" and 'botonCon' in request.form:
+              ip = request.form.get("archivo")
+              file = open(".\historico\hostnames\\"+str(ip)+".txt","r")
+              contenido = "Hostname;IP \n"
+              for x in file:
+                nombre = x.split(": ")[0]
+                direccion = x.split(": ")[1]
+                contenido += nombre + ";"+direccion
+              temp = open("./temp.csv", "w")
+              temp.write(contenido)
+              temp.close()
+              listaD = listar()
+              return render_template('index.html', opcion = listaD, archivo = str(ip), contenido = contenido)
 @app.route('/')
 def index():
   listaD = listar()
