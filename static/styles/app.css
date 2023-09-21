@@ -1,15 +1,12 @@
 body{
-    display: grid;
+    display: flex;
     justify-items: center;
+    align-items: center;
     background-color: #E4E1E0;
     margin: 0px;
-    border-style: solid;
-    border: 0px 0px 0px 0px;
-    border-color: gray;
-    border-left: 5px;
-    border-right: 5px;
-    padding:  0px 3px 0px 3px;
-    grid-template-rows: 100%;
+    padding:  0px 5px 0px 5px;
+    height: 100%;
+    flex-direction: column;
 }
 h1{
     align-self: center;
@@ -33,6 +30,7 @@ input{
     border-style: solid;
     border-width: 8px;
     grid-gap: 8px;
+    
 }
 .recorredor{
     margin: 0;
@@ -63,28 +61,44 @@ input{
     border-top: 5px solid gray;
 }
 .tabla{
-    font-size: 10.2px;
+    margin: 0;
+    padding:0;
+    text-align: justify;
+    align-content: center;
+    justify-content: center;
+    font-size: 11px;
+    border: 2px solid gray;
 }
-.footer{
+.tabla:after{
+    content: "";
+    display: inline-block;
+    width: 100%;
+}
+.recorrido{
     display: grid;
     margin: 0;
     padding: 10px 0 10px 0;
     align-items: center;
     border-top: 5px solid gray;
 }
-.footer form{
+.recorrido form{
     display: grid;
     align-items: center;
     justify-items: center;
     grid-template-columns: 50% 50%;
 }
+
 .allContent{
     width: 100%;
-    height: auto;
+    height: 100%;
     display: grid;
     grid-template-columns: 37% 26% 37%;
     justify-items: center;
     grid-template-rows: 100%;
+    margin-bottom: 3%;
+    border-style: solid;
+    border-color: gray;
+    border-width: 5px;
 }
 .info{
     width: 100%;
@@ -92,30 +106,43 @@ input{
     justify-items: center;
     margin: 0;
     align-items: start;
-    padding: 0px 0px 15px 0px;
-    text-align: justify;
+    padding: 15px 0px 15px 0px;
+    grid-template-rows: 5% 95%;
+    grid-gap: 0px;
+    height: auto;
+}
+.iz{
     border-style: solid;
     border-width: 5px;
     border-color: gray;
     border-bottom: 5px;
     border-top: 5px;
-    grid-template-rows: 15% 85%;
+    border-left: 5px;
+}
+.der{
+    border-style: solid;
+    border-width: 5px;
+    border-color: gray;
+    border-bottom: 5px;
+    border-top: 5px;
+    border-right: 5px;
 }
 .columnasi{
     height: auto;
     display: grid;
     grid-template-columns: 20% 20% 20% 20% 20%;
-    grid-auto-rows: auto;
-    grid-gap: 5px;
+    grid-gap: 0px;
 }
 .columnasd{
-    height: auto;
     display: grid;
-    grid-template-columns: 33% 33% 33%;
-    grid-auto-rows: auto;
-    grid-gap: 5px;
+    grid-template-columns: 50% 50%;
+    grid-gap: 0px;
+    align-items: center;
+    padding:0;
+    margin: 0;
 }
 .evidenS{
+    padding: 0px 10px 0px 10px;
     border-top: 5px solid gray;
     justify-items: center;
     align-items: center;
@@ -135,4 +162,23 @@ input{
     grid-template-rows: auto;
     justify-items: center;
     grid-gap: 5px;
+}
+.footer{
+    width: 100%;
+    display: grid;
+    align-items: center;
+    justify-items: end;
+    justify-content: right;
+    background-color: gray;
+    border: 5px solid gray;
+    grid-template-columns: 17% 17%;
+    align-self: center;
+    position: fixed;
+    bottom: 0;
+}
+.footer img{
+    width: 40%;
+}
+.footer a{
+    color: #4e1c0b;
 }

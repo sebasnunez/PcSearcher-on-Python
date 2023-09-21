@@ -82,7 +82,7 @@ def recorrerIp():
             return render_template('index.html', opcion = listaD)
           else:
             listaD = listar()
-            return render_template('index.html', opcion = listaD)
+            return render_template('index.html', opcion = listaD, ip=ip)
         else:
           if request.method=="POST" and 'botonEqui' in request.form:
             nombreEqui = request.form.get("nombreEqui")

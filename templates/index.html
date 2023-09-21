@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{url_for('static', filename = 'styles/app.css')}}">
-    <title>Buscador de Equipos 3000</title>
+    <link rel="shortcut icon" href="{{url_for('static', filename = 'img/icon.png')}}" type="image/x-icon">
+    <title>PcSearcher</title>
 </head>
 <body onload="buscarIp()">
     <div class="allContent">
-        <div class="info">
+        <div class="info iz">
             <h2>IP</h2>
-            
             <div class = "columnasi">
                 {% for x in list%}
-                <div class="tabla" style="text-align: justify;">{{x}}</div>
+                <p class="tabla">{{x}}</p>
                 {% endfor %}
             </div>
         </div>
         <div class="container">
-            <h1>Buscador de Equipos</h1>
+            <h1>PcSearcher</h1>
             <div class="recorredor">
                 <form action="/" method="post">
                     <label for="ip">Ingrese fragmento de ip a recorrer</label>
@@ -39,7 +39,7 @@
                     }
                 </script>
             </div>
-            <div class="footer">
+            <div class="recorrido">
                 <form action="/" method="post">
                     <select onclick="buscarIp()" name="des" id="des">
                         {% for x in opcion%}
@@ -55,19 +55,12 @@
                     <input type="text" name="evidencia"><br/>
                     <div>
                         <select name="TiEq" id="TiEq">
-                            <option value="escritorio">Escritorio</option>
                             <option value="portatil">Portatil</option>
+                            <option value="escritorio">Escritorio</option>
                         </select>
                         <input name = "botonEvidencia" type="submit" value="Generar" />
                     </div>
                 </form>
-                {% if ip%}
-                <input type="hidden" id="ip" value="{{ip}}">
-                <script>
-                    ip = document.getElementById("ip").value
-                    alert("El equipo "+ip+" no se encuentra en la red")
-                </script>
-                {% endif %}
             </div>
             <div>
                 <form class="buscarEqui" action="/" method="post">
@@ -75,13 +68,6 @@
                     <input type="text" name="nombreEqui"><br/>
                     <input name = "botonEqui" type="submit" value="Buscar" />
                 </form>
-                {% if nameEqui%}
-                <input type="hidden" id="nameEqui" value="{{nameEqui}}" >
-                <script>
-                    nameEqui = document.getElementById("nameEqui").value
-                    alert(nameEqui)
-                </script>
-                {% endif %}
             </div>
             <div>
                 <form class="convertir" class="Convert" action="/" method="post">
@@ -89,32 +75,52 @@
                     <input type="hidden" name="archivo" id="archivo" value="">
                     <input name = "botonCon" type="submit" value="Convertir" />
                 </form>
-                {% if archivo and contenido%}
-                <input type="hidden" id="archi" value="{{archivo}}" >
-                <input type="hidden" id="contenido" value="{{contenido}}" >
-                <script>
-                    archi = document.getElementById("archi").value
-                    contenido = document.getElementById("contenido").value
-                    nombre = archi+".csv"
-                    const a = document.createElement("a");
-                    const archivo = new Blob([contenido], { type: 'text/plain' });
-                    const url = URL.createObjectURL(archivo);
-                    a.href = url;
-                    a.download = nombre;
-                    a.click();
-                    URL.revokeObjectURL(url);
-                </script>
-                {% endif %}
             </div>
         </div>
-        <div class="info">
+        <div class="info der">
             <h2>HOSTNAME</h2>
             <div class = "columnasd">
                 {% for x in names%}
-                <div class="tabla" style="text-align: justify;">{{x}}</div>
+                <p class="tabla">{{x}}</p>
                 {% endfor %}
             </div>
         </div>
     </div>
+    <footer class="footer">
+        <a href="http://github.com/sebasnunez/PcSearcher-on-Python">PcSearcher Github</a>
+        <div style="display: grid; align-items: center; justify-items: right; grid-template-columns: 80% 20%; grid-gap: 5px;">
+            <label>Made by Sebastian Nuñez</label><a href="http://github.com/sebasnunez"><img src="{{url_for('static', filename = 'img/github.png')}}"></a>
+        </div>
+    </footer>
+    {% if ip%}
+    <input type="hidden" id="ip" value="{{ip}}">
+    <script>
+        ip = document.getElementById("ip").value
+        alert("El equipo "+ip+" no se encuentra en la red")
+    </script>
+    {% endif %}
+    {% if nameEqui%}
+    <input type="hidden" id="nameEqui" value="{{nameEqui}}" >
+    <script>
+        nameEqui = document.getElementById("nameEqui").value
+        alert(nameEqui)
+    </script>
+    {% endif %}
+    {% if archivo and contenido%}
+    <input type="hidden" id="archi" value="{{archivo}}" >
+    <input type="hidden" id="contenido" value="{{contenido}}" >
+    <script>
+        archi = document.getElementById("archi").value
+        contenido = document.getElementById("contenido").value
+        nombre = archi+".csv"
+        const a = document.createElement("a");
+        const archivo = new Blob([contenido], { type: 'text/plain' });
+        const url = URL.createObjectURL(archivo);
+        a.href = url;
+        a.download = nombre;
+        a.click();
+        URL.revokeObjectURL(url);
+    </script>
+    {% endif %}
 </body>
 </html>
