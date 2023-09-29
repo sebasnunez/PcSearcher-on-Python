@@ -1,8 +1,9 @@
 from flask import Flask, render_template, request
+from werkzeug.utils import secure_filename
 import os
 import wget
 app = Flask(__name__)
-
+app.config['UPLOAD_FOLDER'] = './temp'
 import subprocess
 @app.route("/", methods = ["POST"])
 def recorrerIp():
@@ -41,7 +42,7 @@ def recorrerIp():
       file.write(x+"\n")
     file.close()
     listaD = listar()
-    return render_template("index.html",names = listT, opcion = listaD)
+    return render_template("index.html", nElementos = len(listT),names = listT, opcion = listaD)
   else:
     if request.method=="POST" and 'historicoRecorrido' in request.form:
       des = request.form.get("des")
@@ -51,7 +52,7 @@ def recorrerIp():
         ls.append(x)
       file.close()
       listaD = listar()
-      return render_template("index.html",names = ls, opcion = listaD)
+      return render_template("index.html",nElementos = len(ls), names = ls, opcion = listaD)
     else:
       if request.method=="POST" and 'botonEvidencia' in request.form:
         ip = request.form.get("evidencia")
@@ -73,20 +74,46 @@ def recorrerIp():
       else:
         if request.method=="POST" and 'botonEqui' in request.form:
           nombreEqui = request.form.get("nombreEqui")
-          res = subprocess.Popen('cd ./historico/ && find "'+str(nombreEqui)+'" ./*.txt', shell=True,stdout=subprocess.PIPE)
-          out = res.stdout.read()
-          if 'n1' in str(out):
-            nombre="1"+str(out).split('n1')[1]
-            n = 1
-            while True:
-              if nombre[n]=="\\":
-                break
-              n+=1
-            nombre=nombre[:n]
+          archivo = request.form.get("archivoSubido")
+          if nombreEqui!="" and archivo is None:
+            Equi = "Equipo encontrado:\n"
+            res = subprocess.Popen('cd ./historico/ && find "'+str(nombreEqui)+'" ./*.txt', shell=True,stdout=subprocess.PIPE)
+            out = res.stdout.read()
+            if 'n1' in str(out):
+              nombre="1"+str(out).split('n1')[1]
+              n = 1
+              while True:
+                if nombre[n]=="\\":
+                  break
+                n+=1
+              nombre=nombre[:n]
+              Equi += nombre
+            else:
+              Equi = 'El equipo no se encuentra en ninguna consulta'
           else:
-            nombre = 'El equipo no se encuentra en ninguna consulta'
+            if archivo != None and nombreEqui=="":
+              filename = secure_filename(archivo.filename)
+              archivo.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+              dir = os.listdir("./temp/")
+              list = open("./temp/"+dir[0],"r")
+              Equi = "Equipos encontrados:\n"
+              for x in list:
+                res = subprocess.Popen('cd ./historico/ && find "'+str(x)+'" ./*.txt', shell=True,stdout=subprocess.PIPE)
+                out = res.stdout.read()
+                if 'n1' in str(out):
+                  nombre += "1"+str(out).split('n1')[1]
+                  n = 1
+                  while True:
+                    if nombre[n]=="\\":
+                      break
+                    n+=1
+                  nombre=nombre[:n]
+                Equi += nombre + "\n"
+              if Equi == "Equipos encontrados:\n":
+                Equi = "No se encontro ningun equipo"
+              os.remove("./temp/"+dir[0])
           listaD = listar()
-          return render_template('index.html', opcion = listaD, nameEqui = nombre)
+          return render_template('index.html', opcion = listaD, nameEqui = Equi)
         else:
           if request.method=="POST" and 'botonCon' in request.form:
             ip = request.form.get("archivo")
@@ -102,9 +129,9 @@ def recorrerIp():
             else:
               mensaje = "No hay archivos a convertir"
               listaD = listar()
-              return render_template('index.html', opcion = listaD, mensaje = mensaje)
+              return render_template('index.html',opcion = listaD, mensaje = mensaje)
 @app.route('/')
-def index():
+def index():  
   listaD = listar()
   return render_template('index.html', opcion = listaD)
 

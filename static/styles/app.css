@@ -42,11 +42,12 @@ input{
     display: grid;
     align-items: center;
     justify-items: center;
-    grid-row-gap: 0px ;
+    grid-gap: 5px;
 }
 .recorredor form{
     display: grid;
     justify-items: center;
+    grid-gap: 5px;
 }
 .recorredor div{
     display: grid;
@@ -84,6 +85,7 @@ input{
     padding: 10px 0 10px 0;
     align-items: center;
     border-top: 5px solid gray;
+    grid-gap: 5px;
 }
 .recorrido form{
     display: grid;
@@ -99,12 +101,14 @@ input{
     height: 100%;
     display: grid;
     grid-template-columns: 30% 70%;
+    grid-template-rows: min-content min-content;
     justify-items: center;
     grid-template-rows: 100%;
     margin-bottom: 3%;
     border-style: solid;
     border-color: gray;
     border-width: 5px;
+    text-align: center;
 }
 .info{
     width: 100%;
@@ -136,11 +140,13 @@ input{
     height: auto;
     display: grid;
     grid-template-rows: auto;
+    grid-gap: 5px;
 }
 .buscarEqui{
     border-top: 5px solid gray;
     display: grid;
-    grid-template-rows: auto;
+    grid-template-columns: auto;
+    grid-gap: 5px;
     justify-items: center;
 }
 .convertir{
